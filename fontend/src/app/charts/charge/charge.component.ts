@@ -158,7 +158,7 @@ export class ChargeComponent implements OnInit {
               total += dataSets[j]['data'][index];
             }
             if (i == length - 1) {
-              ctx.fillText(total, bar._model.x, bar._model.y - 5);
+              ctx.fillText(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), bar._model.x, bar._model.y - 5);
             }
           });
         });
