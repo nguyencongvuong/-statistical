@@ -1,0 +1,36 @@
+/* CSS Document */
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: Arial;
+  font-size: 14px;
+}
+
+.container-fluid {
+  border: 1px solid black;
+}
+
+.container {
+  padding: 50px 0px 50px 0px;
+}
+
+.mobi-table p {
+  margin: 0px 10px 10px 10px;
+}
+@media (max-width: 480px){
+  body{
+    font-size: 1ex;
+  }
+  .mobi-table {
+    position: relative;
+    width: 90%!important;
+    margin: auto;
+  }
+  .container {
+    position: relative;
+    padding: 0px;
+
+  }
+}
+
+

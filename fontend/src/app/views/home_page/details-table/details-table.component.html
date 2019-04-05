@@ -1,0 +1,17 @@
+<table border="1" class="table-sm text-center container mobi-table" style="width: 70%; font-size: 100%; line-height: 14px;">
+  <tbody>
+  <tr>
+    <td style="background-color: #FFFFCC;">&nbsp;<p>Tổng Thuê bao kích hoạt mới trong ngày</p></td>
+    <td style="background-color: #FFCC99">&nbsp;<p>tổng số tiền thu cước trong ngày</p></td>
+    <td style="background-color: #CCFFFF">&nbsp;<p>Tổng thuê bao hoạt động trong ngày</p></td>
+    <td style="background-color: #CC99FF">&nbsp;<p>Tổng sự cố khiếu nại trong ngày</p></td>
+  </tr>
+  <tr *ngIf="reportCurrentStatistic">
+
+    <td style="background-color: #FFFFCC;">&nbsp;<b>{{reportCurrentStatistic.developmentalSubCount}}</b></td>
+    <td style="background-color: #FFCC99">&nbsp;<b>{{reportCurrentStatistic.paymentValueSum|number}} đ</b></td>
+    <td style="background-color: #CCFFFF">&nbsp;<b>{{reportCurrentStatistic.paymentValueSum}}</b></td>
+    <td style="background-color: #CC99FF">&nbsp;<b>{{reportCurrentStatistic.problemCount}}</b></td>
+  </tr>
+  </tbody>
+</table>

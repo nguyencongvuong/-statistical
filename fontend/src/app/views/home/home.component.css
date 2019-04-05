@@ -1,0 +1,22 @@
+#bar-chart{
+  background-color: rgb(55, 71, 79);
+  width: 800px;
+  height: 350px;
+  font-family: Lato, Helvetica-Neue, monospace;
+}
+
+.ct-series-a .ct-bar {
+  /* Colour of your bars */
+  stroke:  #be1e2d;
+  background-color: #00a79d;
+}
+.ct-series-b .ct-bar {
+  /* Colour of your bars */
+  background-color: #00a79d;
+  stroke:  #00a79d;
+
+}
+
+.ct-label {
+  color: white;
+}

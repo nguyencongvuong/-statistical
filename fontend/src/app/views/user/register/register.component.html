@@ -1,0 +1,43 @@
+<div class="signup-form" >
+  <form [formGroup]="registerForm"  (ngSubmit)="onSubmit()">
+    <h2>Register</h2>
+    <p class="hint-text">Create your account. It's free and only takes a minute.</p>
+    <div class="form-group">
+      <input type="text" class="form-control" name="email" placeholder="user name" required="required" formControlName="email">
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">Tên đăng nhập là bắt buộc</div>
+      </div>
+    </div>
+    <!--<div class="form-group">-->
+      <!--<input type="email" class="form-control" name="email" placeholder="Email" required="required" formControlName="email">-->
+    <!--</div>-->
+    <div class="form-group">
+      <input type="password" class="form-control" name="password" placeholder="Password" required="required" formControlName="password">
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Tên đăng nhập là bắt buộc</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password"
+             formControlName="confirm_password"
+             required="required">
+
+      <div *ngIf="submitted && !f.confirm_password.errors && registerForm.hasError('notSame')" class="invalid-feedback">
+
+        <div *ngIf="registerForm.hasError('notSame')">mật khẩu không khớp với mật khẩu đã nhập</div>
+      </div>
+      <div *ngIf="submitted && f.confirm_password.errors" class="invalid-feedback">
+
+        <div *ngIf="registerForm.hasError('notSame')">Mật khẩu là bắt buộc</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of
+        Use</a> &amp; <a href="#">Privacy Policy</a></label>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+    </div>
+  </form>
+  <div class="text-center">Already have an account? <a href="#">Sign in</a></div>
+</div>

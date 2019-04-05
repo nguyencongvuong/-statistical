@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-5" style="border: 1px solid black;">
+    <b>I. Báo cáo thuê bao theo tình trạng</b>
+    <!--<img class="img-fluid" src="img/Untitled-5-01.jpg" alt="Mobitv" />-->
+    <app-by-status></app-by-status>
+
+  </div>
+  <div class="col-sm-5" style="border: 1px solid black;">
+    <b>II. Báo cáo thuê bao đang hoạt động theo dịch vụ</b>
+    <!--<img class="img-fluid" src="img/Untitled-11-01.jpg" alt="Mobitv" />-->
+    <app-by-service [chartsData]="data"></app-by-service>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-5" style="border: 1px solid black;">
+    <b>III. Báo cáo thuê bao phát triển theo miền</b>
+    <app-subscriber-by-area [chartsData]="data"></app-subscriber-by-area>
+  </div>
+  <div class="col-sm-5" style="border: 1px solid black;">
+    <b>IV. Báo cáo thu cước theo hình thức (COD, Thẻ điện tử, Thẻ Vật lý)</b>
+    <!--<img class="img-fluid" src="img/Untitled-9-01.jpg" alt="Mobitv" />-->
+    <app-charge [chartsData]="data"></app-charge>
+  </div>
+</div>
