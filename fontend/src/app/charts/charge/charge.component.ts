@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import parseFloat = require("core-js/fn/number/parse-float");
 
 @Component({
   selector: 'app-charge',
@@ -17,7 +18,11 @@ export class ChargeComponent implements OnInit {
     backgroundColor: [],
     tooltips: {
       mode: 'index',
-      intersect: false
+      intersect: false,
+      filter:function (v) {
+          v.value = parseFloat(parseFloat(v.value).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          return v;
+      }
     },
     events:['mousemove','mouseout'],
     legend: {
@@ -158,7 +163,8 @@ export class ChargeComponent implements OnInit {
               total += dataSets[j]['data'][index];
             }
             if (i == length - 1) {
-              ctx.fillText(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), bar._model.x, bar._model.y - 5);
+
+              ctx.fillText(parseFloat(parseFloat(total).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/\B(?=(\d{3})+(?!\d))/g, ","), bar._model.x, bar._model.y - 5);
             }
           });
         });

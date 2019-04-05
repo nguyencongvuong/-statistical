@@ -22,15 +22,12 @@ export class ChartsService {
   }
   getSubscriptionByArea(){
     let date = new Date();
-    let days = [];
     let varies = {};
     for (let i = 7; i >=0; i--) {
-      let d = new Date(new Date().setDate(new Date().getDate() + i));
-      // let m = date.getMonth();
-      let m = new Date(new Date().setMonth(new Date().getMonth() - 2 )).getMonth();
-      varies["day_" + `${i + 1}`] = `${date.getFullYear()}-${(m < 10) ? '0' + m : m}-${(d.getDate() < 10) ? '0' + d.getDate() : d.getDate()}`;
+      let d = new Date(new Date().setDate(new Date().getDate() - i));
+      let m = d.getMonth() + 1;
+      varies["day_" + `${7-i}`] = `${date.getFullYear()}-${(m < 10) ? '0' + m : m}-${(d.getDate() < 10) ? '0' + d.getDate() : d.getDate()}`;
     }
-
     return this.apollo.watchQuery<any>({
       query: reportDevelopmentalSubscriptionByArea,
       variables: varies
