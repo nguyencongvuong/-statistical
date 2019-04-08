@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import parseFloat = require("core-js/fn/number/parse-float");
+var parseFloat = require("core-js/fn/number/parse-float");
 
 @Component({
   selector: 'app-charge',
