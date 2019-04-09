@@ -89,13 +89,14 @@ export class SubscriberByAreaComponent implements OnInit {
         // ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
+        ctx.fillStyle = 'black';
         var length = this.data.datasets.length;
         var dataSets = this.data.datasets;
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           meta.data.forEach(function (bar, index) {
             var total = 0;
-            for (let j = 0; j < length; j++) {
+            for (let j = 0; j < length - 1; j++) {
               total += dataSets[j]['data'][index];
             }
             if (i == length - 1) {
@@ -136,11 +137,13 @@ export class SubscriberByAreaComponent implements OnInit {
       let centralCount = [];
       let southCount = [];
       let barLabels = [];
+      let lineData = [];
       keys.forEach(function (v, k) {
         northernCount.push(data[v]["northernCount"]);
         centralCount.push(data[v]["centralCount"]);
         southCount.push(data[v]["southCount"]);
         barLabels.push(data[v]['day']);
+        lineData.push(data[v]["northernCount"]+data[v]["centralCount"]+data[v]["southCount"]);
       });
 
       self.barChartLabels = barLabels;
@@ -166,6 +169,13 @@ export class SubscriberByAreaComponent implements OnInit {
           hoverBackgroundColor: '#CCFFFF',
           borderColor: '#CCFFFF'
         },
+        {
+          label: 'Tổng',
+          data: lineData,
+
+          type: 'line'
+
+        }
       ]
     });
     this.barChartData = [

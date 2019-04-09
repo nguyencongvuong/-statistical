@@ -171,22 +171,25 @@ export class ChargeComponent implements OnInit {
       "onProgress": function () {
         var chartInstance = this.chart,
           ctx = chartInstance.ctx;
+        console.log(ctx);
         // ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
+        ctx.fillStyle = 'black';
+        // ctx.textC
         var length = this.data.datasets.length;
         var dataSets = this.data.datasets;
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           meta.data.forEach(function (bar, index) {
             var total = 0;
-            for (let j = 0; j < length; j++) {
+            for (let j = 0; j < length-1; j++) {
               total += dataSets[j]['data'][index];
             }
 
             if (i == length - 1) {
 
-              ctx.fillText(parseFloat(parseFloat(total).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/\B(?=(\d{3})+(?!\d))/g, ","), bar._model.x, bar._model.y - 5);
+              ctx.fillText(parseFloat(parseFloat(total).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/\B(?=(\d{3})+(?!\d))/g, ","), bar._model.x, bar._model.y - 10);
             }
           });
         });
@@ -219,6 +222,13 @@ export class ChargeComponent implements OnInit {
       hoverBackgroundColor: '#CCFFFF',
       borderColor: '#CCFFFF'
     },
+    {
+      label: 'Line Dataset',
+      data: [200, 200, 200, 200],
+
+      // Changes this dataset to become a line
+      type: 'line'
+    }
   ];
 
   ngOnInit() {
@@ -249,6 +259,7 @@ export class ChargeComponent implements OnInit {
       let electronicCard = [];
       let physicalCard = [];
       let barLabels = [];
+      let lineData =[];
       keys.forEach(function (v, k) {
         console.log(parseFloat(parseFloat(data[v]["cod"]).toFixed(2)));
         let codValue = parseFloat(parseFloat((Math.fround(data[v]["cod"] / 1000000))));
@@ -258,6 +269,7 @@ export class ChargeComponent implements OnInit {
         electronicCard.push(electronicValue);
         physicalCard.push(physical);
         barLabels.push(data[v]['day']);
+        lineData.push(codValue+electronicValue+physical);
       });
 
       self.barChartLabels = barLabels;
@@ -283,6 +295,13 @@ export class ChargeComponent implements OnInit {
           hoverBackgroundColor: '#CCFFFF',
           borderColor: '#CCFFFF'
         },
+        {
+          label: 'Tổng',
+          data: lineData,
+
+          type: 'line'
+
+        }
       ]
     });
   }
