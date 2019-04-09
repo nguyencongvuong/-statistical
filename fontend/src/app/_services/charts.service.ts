@@ -24,7 +24,7 @@ export class ChartsService {
     let date = new Date();
     let varies = {};
     for (let i = 7; i >=0; i--) {
-      let d = new Date(new Date().setDate(new Date().getDate() - i));
+      let d = new Date(new Date().setDate(new Date().getDate() - i-1));
       let m = d.getMonth() + 1;
       varies["day_" + `${7-i}`] = `${date.getFullYear()}-${(m < 10) ? '0' + m : m}-${(d.getDate() < 10) ? '0' + d.getDate() : d.getDate()}`;
     }

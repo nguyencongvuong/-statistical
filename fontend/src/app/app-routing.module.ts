@@ -7,10 +7,15 @@ import {RegisterComponent} from "./views/user/register/register.component";
 import {AuthenticationService} from "./_services/authentication.service";
 
 const routes: Routes = [
-  {path: '', component: IndexComponent,canActivate:[AuthenticationService]},
-  {path: 'gg', component: HomeComponent},
+  {path: '', component: IndexComponent, canActivate: [AuthenticationService]},
   {path: 'login', component: LoginComponent},
-  {path:'register',component:RegisterComponent}
+
+  {
+    path: 'admin', canActivate: [AuthenticationService],
+    children: [
+      {path: 'register', component: RegisterComponent},
+    ]
+  }
 ];
 
 @NgModule({

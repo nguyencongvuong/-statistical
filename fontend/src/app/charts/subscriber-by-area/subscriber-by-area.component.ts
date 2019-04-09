@@ -63,7 +63,21 @@ export class SubscriberByAreaComponent implements OnInit {
         }
       ],
       yAxes: [
-        {stacked: true}
+        {
+          stacked: true,
+          ticks: {
+            maxIndex:0,
+            callback: function(label, index, labels) {
+              if(this.options.ticks.maxIndex <= index){
+                this.options.ticks.maxIndex = index;
+              }
+              if(this.options.ticks.maxIndex == labels[0]/this.options.ticks.maxRotation){
+                this.options.ticks.suggestedMax = labels[0] + this.options.ticks.maxRotation*4;
+              }
+              return label;
+            }
+          }
+        }
       ]
     },
     borderSkipped: 'bottom',

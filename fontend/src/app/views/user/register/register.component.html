@@ -1,9 +1,9 @@
 <div class="signup-form" >
   <form [formGroup]="registerForm"  (ngSubmit)="onSubmit()">
-    <h2>Register</h2>
-    <p class="hint-text">Create your account. It's free and only takes a minute.</p>
+    <h2>Đăng ký</h2>
+    <!--<p class="hint-text">Create your account. It's free and only takes a minute.</p>-->
     <div class="form-group">
-      <input type="text" class="form-control" name="email" placeholder="user name" required="required" formControlName="email">
+      <input type="text" class="form-control" name="email" placeholder="Email" required="required" formControlName="email">
       <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
         <div *ngIf="f.email.errors.required">Tên đăng nhập là bắt buộc</div>
       </div>
@@ -31,13 +31,16 @@
         <div *ngIf="registerForm.hasError('notSame')">Mật khẩu là bắt buộc</div>
       </div>
     </div>
+    <!--<div class="form-group">-->
+      <!--<label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of-->
+        <!--Use</a> &amp; <a href="#">Privacy Policy</a></label>-->
+    <!--</div>-->
     <div class="form-group">
-      <label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of
-        Use</a> &amp; <a href="#">Privacy Policy</a></label>
+      <button type="submit" class="btn btn-success btn-lg btn-block">Đăng ký</button>
     </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+    <div class="login-register text-center">
+      <a href="/login">Đăng nhập</a>
     </div>
   </form>
-  <div class="text-center">Already have an account? <a href="#">Sign in</a></div>
+
 </div>

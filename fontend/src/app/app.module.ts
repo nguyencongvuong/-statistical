@@ -12,11 +12,11 @@ import {GoogleChartsModule} from 'angular-google-charts';
 import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {GoogleChartInterface} from 'ng2-google-charts/google-charts-interfaces';
 import {Helpers} from "./_helpers/helpers";
-import {
-  IBarChartOptions,
-  IChartistAnimationOptions,
-  IChartistData
-} from 'chartist';
+// import {
+//   IBarChartOptions,
+//   IChartistAnimationOptions,
+//   IChartistData
+// } from 'chartist';
 import {ChartEvent, ChartType} from 'ng-chartist';
 import {ChartistModule} from 'ng-chartist';
 import {LoginComponent} from "./views/login/login.component";
