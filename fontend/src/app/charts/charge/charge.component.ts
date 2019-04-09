@@ -217,7 +217,7 @@ export class ChargeComponent implements OnInit {
     },
     {
       data: [120, 20, 60],
-      label: 'CoD',
+      label: 'Thu hộ',
       backgroundColor: '#CCFFFF',
       hoverBackgroundColor: '#CCFFFF',
       borderColor: '#CCFFFF'
@@ -275,7 +275,7 @@ export class ChargeComponent implements OnInit {
       self.barChartLabels = barLabels;
       self.barChartData = [
         {
-          label: 'Cod',
+          label: 'Thu hộ',
           data: cod,
           backgroundColor: '#6699FF',
           hoverBackgroundColor: '#6699FF',
