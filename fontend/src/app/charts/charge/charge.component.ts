@@ -141,8 +141,13 @@ export class ChargeComponent implements OnInit {
       xAxes: [
         {
           stacked: true,
+          gridLines: {
+            color: '#CCC' // makes grid lines from y axis red
+          },
           barPercentage: 0.5,
-
+          ticks:{
+            fontColor: "#CCC",
+          }
           // barThickness: 6,
           // maxBarThickness: 8,
           // minBarLength: 2,
@@ -151,8 +156,13 @@ export class ChargeComponent implements OnInit {
       yAxes: [
         {
           stacked: true,
+          gridLines: {
+            color: '#CCC' // makes grid lines from y axis red
+          },
           ticks: {
             maxIndex:0,
+            fontColor: "#CCC",
+
             callback: function(label, index, labels) {
               if(this.options.ticks.maxIndex <= index){
                 this.options.ticks.maxIndex = index;
@@ -175,7 +185,7 @@ export class ChargeComponent implements OnInit {
         // ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'white';
         // ctx.textC
         var length = this.data.datasets.length;
         var dataSets = this.data.datasets;
@@ -277,28 +287,28 @@ export class ChargeComponent implements OnInit {
         {
           label: 'Thu hộ',
           data: cod,
-          backgroundColor: '#6699FF',
-          hoverBackgroundColor: '#6699FF',
-          borderColor: '#6699FF'
+          backgroundColor: '#005EB6',
+          hoverBackgroundColor: '#005EB6',
+          borderColor: '#ffffff'
         },
         {
           label: 'Thẻ điện tử',
           data: electronicCard,
-          backgroundColor: '#FFCCCC',
-          hoverBackgroundColor: '#FFCCCC',
-          borderColor: '#FFCCCC'
+          backgroundColor: '#ED201F',
+          hoverBackgroundColor: '#ED201F',
+          borderColor: '#ffffff'
         },
         {
           label: 'Thẻ vật lý',
           data: physicalCard,
-          backgroundColor: '#CCFFFF',
-          hoverBackgroundColor: '#CCFFFF',
-          borderColor: '#CCFFFF'
+          backgroundColor: '#F7F7F7',
+          hoverBackgroundColor: '#F7F7F7',
+          borderColor: '#ffffff'
         },
         {
           label: 'Tổng',
+          backgroundColor:'#323232',
           data: lineData,
-
           type: 'line'
 
         }
