@@ -1,17 +1,17 @@
-<table border="1" class="table-sm text-center container mobi-table" style="width: 70%; font-size: 100%; line-height: 14px;">
+<table border="1" class="table-sm text-center container mobi-table table-striped table-dark text-white" style="width: 95%; font-size: 100%; line-height: 14px; color: black;">
   <tbody>
   <tr>
-    <td style="background-color: #FFFFCC;">&nbsp;<p>Tổng Thuê bao kích hoạt mới trong ngày</p></td>
-    <td style="background-color: #FFCC99">&nbsp;<p>Thu cước trong ngày</p></td>
-    <td style="background-color: #CCFFFF">&nbsp;<p>Hoạt động trong ngày</p></td>
-    <td style="background-color: #CC99FF">&nbsp;<p>Sự cố trong ngày</p></td>
+    <td >&nbsp;<p>Kích hoạt trong ngày</p></td>
+    <td >&nbsp;<p>Thu cước trong ngày</p></td>
+    <td >&nbsp;<p>Hoạt động trong ngày</p></td>
+    <td >&nbsp;<p>Sự cố trong ngày</p></td>
   </tr>
   <tr *ngIf="reportCurrentStatistic">
 
-    <td style="background-color: #FFFFCC;">&nbsp;<b>{{reportCurrentStatistic.developmentalSubCount}}</b></td>
-    <td style="background-color: #FFCC99">&nbsp;<b>{{reportCurrentStatistic.paymentValueSum|number}} đ</b></td>
-    <td style="background-color: #CCFFFF">&nbsp;<b>{{reportCurrentStatistic.effectiveSubCount|number}}</b></td>
-    <td style="background-color: #CC99FF">&nbsp;<b>{{reportCurrentStatistic.problemCount}}</b></td>
+    <td >&nbsp;<b>{{reportCurrentStatistic.developmentalSubCount}}</b></td>
+    <td >&nbsp;<b>{{reportCurrentStatistic.paymentValueSum|number}} đ</b></td>
+    <td >&nbsp;<b>{{reportCurrentStatistic.effectiveSubCount|number}}</b></td>
+    <td >&nbsp;<b>{{reportCurrentStatistic.problemCount}}</b></td>
   </tr>
   </tbody>
 </table>

@@ -27,6 +27,7 @@ import {Apollo, ApolloModule} from "apollo-angular";
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {HttpLink, HttpLinkModule} from "apollo-angular-link-http";
 import {HttpClientModule} from "@angular/common/http";
+<<<<<<< HEAD
 import { setContext } from 'apollo-link-context';
 import { HttpHeaders } from '@angular/common/http';
 
@@ -43,6 +44,9 @@ export function getAuthServiceConfigs() {
   );
   return config;
 }
+=======
+import { FooterComponent } from './views/layouts/footer/footer.component';
+>>>>>>> 781543eecc9c4e8c38f9311cac5ab63605cb3fc0
 
 var config = {
   apiKey: "AIzaSyCxO4wTX8kriHMPkYessiJgq1deOnVTKBI",
@@ -57,7 +61,8 @@ var config = {
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+
   ],
   imports: [
     BrowserModule,

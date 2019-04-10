@@ -8,6 +8,7 @@ import {SubscriberByAreaComponent} from "../../../charts/subscriber-by-area/subs
 import {MainContentModule} from "../main-content/main-content.module";
 import {HeaderComponent} from "../../layouts/header/header.component";
 import {FormsModule} from "@angular/forms";
+import {FooterComponent} from "../../layouts/footer/footer.component";
 // import {HeaderComponent} from "../../../views/layouts/header/header.component";
 
 @NgModule({
@@ -21,7 +22,7 @@ import {FormsModule} from "@angular/forms";
     MainContentComponent,
     //
     IndexComponent,
-
+    FooterComponent
     // SubscriberByAreaComponent,
   ],
   imports: [

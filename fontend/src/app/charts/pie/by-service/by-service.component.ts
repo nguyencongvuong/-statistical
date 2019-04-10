@@ -75,9 +75,9 @@ export class ByServiceComponent implements OnInit {
         let barChart = [{
           data:d.counts,
           backgroundColor: [
-            '#5B9BD5',
-            '#FFCC99',
-            '#A5A5A5',
+            '#F7F7F7',
+            '#005EB6',
+            '#ED201F',
             'rgba(75, 192, 192, 0.2)',
             'rgba(153, 102, 255, 0.2)',
             'rgba(255, 159, 64, 0.2)'
