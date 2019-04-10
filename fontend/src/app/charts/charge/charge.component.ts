@@ -33,9 +33,11 @@ export class ChargeComponent implements OnInit {
     events: ['mousemove', 'mouseout'],
     legend: {
       fullWidth: false,
+
       position: 'bottom',
       textAlign: 'left',
       labels: {
+        fontColor:"#ccc",
         boxWidth: 10,
         // align
         align: 'center',
@@ -303,11 +305,12 @@ export class ChargeComponent implements OnInit {
           data: physicalCard,
           backgroundColor: '#F7F7F7',
           hoverBackgroundColor: '#F7F7F7',
-          borderColor: '#ffffff'
+          borderColor: '#ffffff',
+
         },
         {
           label: 'Tổng',
-          backgroundColor:'#323232',
+
           data: lineData,
           type: 'line'
 

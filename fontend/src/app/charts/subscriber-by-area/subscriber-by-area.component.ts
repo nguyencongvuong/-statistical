@@ -46,7 +46,7 @@ export class SubscriberByAreaComponent implements OnInit {
       orient: 'vertical',
       labels: {
         boxWidth: 10,
-
+        fontColor:"#ccc",
       },
 
 
@@ -164,26 +164,26 @@ export class SubscriberByAreaComponent implements OnInit {
           data: northernCount,
           backgroundColor: '#005EB6',
           hoverBackgroundColor: '#005EB6',
-          borderColor: 'black'
+          borderColor: '#000000'
         },
         {
           label: 'Trung',
           data: centralCount,
           backgroundColor: '#ED201F',
           hoverBackgroundColor: '#ED201F',
-          borderColor: 'black'
+          borderColor: '#000000'
         },
         {
           label: 'Nam',
           data: southCount,
           backgroundColor: '#F7F7F7',
           hoverBackgroundColor: '#F7F7F7',
-          borderColor: 'black'
+          borderColor: '#000000'
         },
         {
           label: 'Tổng',
           data: lineData,
-          backgroundColor: '#323232',
+
           type: 'line'
 
         }
