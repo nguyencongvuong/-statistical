@@ -27,6 +27,22 @@ import {Apollo, ApolloModule} from "apollo-angular";
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {HttpLink, HttpLinkModule} from "apollo-angular-link-http";
 import {HttpClientModule} from "@angular/common/http";
+import { setContext } from 'apollo-link-context';
+import { HttpHeaders } from '@angular/common/http';
+
+import {SocialLoginModule, AuthServiceConfig, GoogleLoginProvider} from "angular-6-social-login";
+
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider("876025403409-e0hjtmnv013kt3ogvspnrh9an28punh0.apps.googleusercontent.com")
+        }
+      ]
+  );
+  return config;
+}
 
 var config = {
   apiKey: "AIzaSyCxO4wTX8kriHMPkYessiJgq1deOnVTKBI",
@@ -56,15 +72,40 @@ var config = {
     ReactiveFormsModule,
     HttpClientModule,
     ApolloModule,
-    HttpLinkModule
+    HttpLinkModule,
+    SocialLoginModule
   ],
-  providers: [Helpers],
+  providers: [
+    Helpers,
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private apollo:Apollo,private httpLink:HttpLink){
+    const http = httpLink.create({uri: 'http://localhost:4001/graphql'});
+
+    const auth = setContext((_, { headers }) => {
+      // get the authentication token from local storage if it exists
+      const token = localStorage.getItem('idToken');
+      // return the headers to the context so httpLink can read them
+      // in this example we assume headers property exists
+      // and it is an instance of HttpHeaders
+      if (!token) {
+        return {};
+      } else {
+        return {
+          headers: new HttpHeaders().set('idtoken', token)
+        };
+      }
+    });
+
+
     apollo.create({
-      link: httpLink.create({uri: 'http://10.254.12.5:4001/graphql'}),
+      link: auth.concat(http),
       cache: new InMemoryCache()
     });
   }
