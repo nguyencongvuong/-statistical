@@ -39,6 +39,7 @@ export class AuthenticationService implements CanActivate{
   async logout(){
     await this.afAuth.auth.signOut();
     localStorage.removeItem('user');
+    localStorage.removeItem('idToken');
     this.router.navigate(['/login']);
   }
   get isLoggedIn(): boolean {
