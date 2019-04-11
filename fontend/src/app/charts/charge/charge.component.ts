@@ -22,13 +22,84 @@ export class ChargeComponent implements OnInit {
     responsive: true,
     backgroundColor: [],
     tooltips: {
+      enabled: false,
       mode: 'index',
       intersect: false,
       filter: function (v) {
         console.log(v.value);
         v.value = parseFloat(parseFloat(v.value).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return v;
+      },
+      custom: function (tooltipModel) {
+        // Tooltip Element
+        var tooltipEl = document.getElementById('chartjs-tooltip');
+        // Create element on first render
+        if (!tooltipEl) {
+          tooltipEl = document.createElement('div');
+          tooltipEl.id = 'chartjs-tooltip';
+          tooltipEl.innerHTML = '<table></table>';
+          document.body.appendChild(tooltipEl);
+        }
+        // Hide if no tooltip
+        if (tooltipModel.opacity === 0) {
+          // tooltipEl.style.opacity = 0;
+          tooltipEl.style.opacity = "1";
+          return;
+        }
+        // Set caret Position
+        tooltipEl.classList.remove('above', 'below', 'no-transform');
+        if (tooltipModel.yAlign) {
+          tooltipEl.classList.add(tooltipModel.yAlign);
+        } else {
+          tooltipEl.classList.add('no-transform');
+        }
+
+        function getBody(bodyItem) {
+          return bodyItem.lines;
+        }
+
+        if (tooltipModel.body) {
+          var titleLines = tooltipModel.title || [];
+          var bodyLines = tooltipModel.body.map(getBody);
+
+          var innerHtml = '<thead>';
+
+          titleLines.forEach(function (title) {
+            innerHtml += '<tr><th>' + title + '</th></tr>';
+          });
+          innerHtml += '</thead><tbody>';
+
+          bodyLines.forEach(function (body, i) {
+            var colors = tooltipModel.labelColors[i];
+
+            var style = 'background:' + "#000";
+            style += '; border-color:' + colors.borderColor;
+            style += '; border-width: 2px';
+            var span = '<span style="background-color: red"></span>';
+            innerHtml += '<tr><td>' + span + body + '</td></tr>';
+          });
+          innerHtml += '</tbody>';
+
+          var tableRoot = tooltipEl.querySelector('table');
+          tableRoot.innerHTML = innerHtml;
+        }
+        var position = this._chart.canvas.getBoundingClientRect();
+        // Display, position, and set styles for font
+        console.log(this);
+        tooltipEl.style.opacity = "1";
+        tooltipEl.style.zIndex = "10000";
+        tooltipEl.style.backgroundColor = "#000";
+        tooltipEl.style.position = 'absolute';
+        tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+        tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - 20 + 'px';
+        tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
+        tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
+        tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
+        tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
+        tooltipEl.style.pointerEvents = 'none';
+        tooltipEl.style.borderRadius="5px 5px"
       }
+
     },
     events: ['mousemove', 'mouseout'],
     legend: {
@@ -37,88 +108,10 @@ export class ChargeComponent implements OnInit {
       position: 'bottom',
       textAlign: 'left',
       labels: {
-        fontColor:"#ccc",
+        fontColor: "#ccc",
         boxWidth: 10,
-        // align
         align: 'center',
         columns: 'end',
-        // generateLabels:  function (chart) {
-        // // function getValueAtIndexOrDefault(value, index, defaultValue){
-        // //   if (value === undefined || value === null) {
-        // //     return defaultValue;
-        // //   }
-        // //
-        // //   if (this.isArray(value)) {
-        // //     return index < value.length ? value[index] : defaultValue;
-        // //   }
-        // //
-        // //   return value;
-        // // };
-        // // function isArray(){
-        // //   Array.isArray ?
-        // //     function (obj) {
-        // //       return Array.isArray(obj);
-        // //     } :
-        // //     function (obj) {
-        // //       return Object.prototype.toString.call(obj) === '[object Array]';
-        // //     };
-        // // }
-        // chart.legend.afterFit = function () {
-        //   var width = this.width;
-        //   console.log(this);
-        //
-        //   this.lineWidths = this.lineWidths.map( () => this.width-12 );
-        //
-        //   this.options.labels.padding = 30;
-        //   this.options.labels.boxWidth = 15;
-        // };
-        //
-        // var data = chart.data;
-        // if (data.labels.length && data.datasets.length) {
-        //   return data.labels.map((label, i) => {
-        //     console.log(this);
-        //     var meta = chart.getDatasetMeta(0);
-        //     var ds = data.datasets[0];
-        //     var arc = meta.data[i];
-        //     var custom = arc && arc.custom || {};
-        //     var getValueAtIndexOrDefault = function (value, index, defaultValue) {
-        //       if (value === undefined || value === null) {
-        //         return defaultValue;
-        //       }
-        //
-        //       if (Array.isArray ?
-        //         function (obj) {
-        //           return Array.isArray(obj);
-        //         } :
-        //         function (obj) {
-        //           return Object.prototype.toString.call(obj) === '[object Array]';
-        //         }) {
-        //         return index < value.length ? value[index] : defaultValue;
-        //       }
-        //     };
-        //     var arcOpts = chart.options.elements.arc;
-        //     var fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor, i, arcOpts.backgroundColor);
-        //     var stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
-        //     var bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
-        //     console.log(fill);
-        //     return {
-        //       text: '12323',
-        //       fillStyle: fill,
-        //       strokeStyle: stroke,
-        //       lineWidth: 3,
-        //       hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
-        //
-        //       // Extra data used for toggling the correct item
-        //       index: i,
-        //
-        //     };
-        //   });
-        // }
-        // return [];
-        //
-        //
-        // // here goes original or customized code of your generateLabels callback
-        // },
         filter: function (value) {
           // Chart.Chart.helpers
           // var val = '';
@@ -147,8 +140,8 @@ export class ChargeComponent implements OnInit {
             color: '#CCC' // makes grid lines from y axis red
           },
           barPercentage: 0.5,
-          ticks:{
-            fontColor: "#CCC",
+          ticks: {
+            fontColor: "#fefffd",
           }
           // barThickness: 6,
           // maxBarThickness: 8,
@@ -159,20 +152,25 @@ export class ChargeComponent implements OnInit {
         {
           stacked: true,
           gridLines: {
-            color: '#CCC' // makes grid lines from y axis red
+            color: '#fefffd' // makes grid lines from y axis red
           },
           ticks: {
-            maxIndex:0,
-            fontColor: "#CCC",
+            maxIndex: 0,
+            fontColor: "#fefffd",
 
-            callback: function(label, index, labels) {
-              if(this.options.ticks.maxIndex <= index){
+            callback: function (label, index, labels) {
+              if (this.options.ticks.maxIndex <= index) {
                 this.options.ticks.maxIndex = index;
               }
-              if(this.options.ticks.maxIndex == labels[0]/this.options.ticks.maxRotation){
-                this.options.ticks.suggestedMax = labels[0] + this.options.ticks.maxRotation*4;
+              if (this.options.ticks.maxIndex == labels[0] / this.options.ticks.maxRotation) {
+                this.options.ticks.suggestedMax = labels[0] + this.options.ticks.maxRotation * 4;
               }
-              return label;
+              if (index == this.options.ticks.maxIndex) {
+                return label;
+              } else {
+                return label + ' triệu';
+              }
+
             }
           }
         },
@@ -188,6 +186,7 @@ export class ChargeComponent implements OnInit {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         ctx.fillStyle = 'white';
+        ctx.zIndex = "1000";
         // ctx.textC
         var length = this.data.datasets.length;
         var dataSets = this.data.datasets;
@@ -195,7 +194,7 @@ export class ChargeComponent implements OnInit {
           var meta = chartInstance.controller.getDatasetMeta(i);
           meta.data.forEach(function (bar, index) {
             var total = 0;
-            for (let j = 0; j < length-1; j++) {
+            for (let j = 0; j < length - 1; j++) {
               total += dataSets[j]['data'][index];
             }
 
@@ -271,7 +270,7 @@ export class ChargeComponent implements OnInit {
       let electronicCard = [];
       let physicalCard = [];
       let barLabels = [];
-      let lineData =[];
+      let lineData = [];
       keys.forEach(function (v, k) {
         console.log(parseFloat(parseFloat(data[v]["cod"]).toFixed(2)));
         let codValue = parseFloat(parseFloat((Math.fround(data[v]["cod"] / 1000000))));
@@ -281,7 +280,7 @@ export class ChargeComponent implements OnInit {
         electronicCard.push(electronicValue);
         physicalCard.push(physical);
         barLabels.push(data[v]['day']);
-        lineData.push(codValue+electronicValue+physical);
+        lineData.push(codValue + electronicValue + physical);
       });
 
       self.barChartLabels = barLabels;
