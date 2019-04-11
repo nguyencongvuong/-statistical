@@ -40,6 +40,7 @@ export class SubscriberByAreaComponent implements OnInit {
       mode: 'index',
       intersect: false,
       enabled:false,
+
       custom:function(tooltipModel) {
         // Tooltip Element
         var tooltipEl = document.getElementById('chartjs-tooltip');
@@ -80,7 +81,7 @@ export class SubscriberByAreaComponent implements OnInit {
           bodyLines.forEach(function(body, i) {
             var colors = tooltipModel.labelColors[i];
 
-            var style = 'background:' + "#000";
+            var style = 'background:' + colors.backgroundColor;
             style += '; border-color:' + colors.borderColor;
             style += '; border-width: 2px';
             var span = '<span style="background-color: red"></span>';
@@ -96,7 +97,7 @@ export class SubscriberByAreaComponent implements OnInit {
         console.log(this);
         tooltipEl.style.opacity = "1";
         tooltipEl.style.zIndex = "10000";
-        tooltipEl.style.backgroundColor= "#000";
+        tooltipEl.style.backgroundColor= this.backgroundColor||"#000";
         tooltipEl.style.position = 'absolute';
         tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
         tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - 20 + 'px';
