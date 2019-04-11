@@ -26,7 +26,7 @@ export class ChargeComponent implements OnInit {
       mode: 'index',
       intersect: false,
       filter: function (v) {
-        console.log(v.value);
+
         v.value = parseFloat(parseFloat(v.value).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return v;
       },
@@ -75,8 +75,9 @@ export class ChargeComponent implements OnInit {
             var style = 'background:' + colors.backgroundColor;
             style += '; border-color:' + colors.borderColor;
             style += '; border-width: 2px';
-            var span = '<span style="background-color: red"></span>';
-            innerHtml += '<tr><td>' + span + body + '</td></tr>';
+            var span = '<span style="'+style+'"></span>';
+            console.log(span);
+            innerHtml += '<tr><td><span style="display: block;background:#005EB6; border-color:#ffffff; border-width: 2px;width: 5px"></span>' + body + '</td></tr>';
           });
           innerHtml += '</tbody>';
 
@@ -85,7 +86,7 @@ export class ChargeComponent implements OnInit {
         }
         var position = this._chart.canvas.getBoundingClientRect();
         // Display, position, and set styles for font
-        console.log(this);
+
         tooltipEl.style.opacity = "1";
         tooltipEl.style.zIndex = "10000";
         tooltipEl.style.backgroundColor= this.backgroundColor||"#000";
@@ -137,11 +138,12 @@ export class ChargeComponent implements OnInit {
         {
           stacked: true,
           gridLines: {
-            color: '#CCC' // makes grid lines from y axis red
+            color: '#fefffd' // makes grid lines from y axis red
           },
           barPercentage: 0.5,
           ticks: {
             fontColor: "#fefffd",
+            fontSize:(window.innerWidth <768)?7:10
           }
           // barThickness: 6,
           // maxBarThickness: 8,
@@ -152,12 +154,14 @@ export class ChargeComponent implements OnInit {
         {
           stacked: true,
           gridLines: {
-            color: '#fefffd' // makes grid lines from y axis red
+            color: '#fefffd', // makes grid lines from y axis red,
+
           },
           ticks: {
             maxIndex: 0,
             fontColor: "#fefffd",
-
+            // stepSize: 1,
+            fontSize:(window.innerWidth<768)?10:11,
             callback: function (label, index, labels) {
               if (this.options.ticks.maxIndex <= index) {
                 this.options.ticks.maxIndex = index;
@@ -181,12 +185,12 @@ export class ChargeComponent implements OnInit {
       "onProgress": function () {
         var chartInstance = this.chart,
           ctx = chartInstance.ctx;
-        console.log(ctx);
+
         // ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         ctx.fillStyle = 'white';
-        ctx.zIndex = "1000";
+        ctx.fontSize = 1;
         // ctx.textC
         var length = this.data.datasets.length;
         var dataSets = this.data.datasets;
@@ -272,7 +276,7 @@ export class ChargeComponent implements OnInit {
       let barLabels = [];
       let lineData = [];
       keys.forEach(function (v, k) {
-        console.log(parseFloat(parseFloat(data[v]["cod"]).toFixed(2)));
+        // console.log(parseFloat(parseFloat(data[v]["cod"]).toFixed(2)));
         let codValue = parseFloat(parseFloat((Math.fround(data[v]["cod"] / 1000000))));
         let electronicValue = parseFloat(parseFloat((Math.fround(data[v]["electronicCard"] / 1000000))));
         let physical = parseFloat(parseFloat(Math.fround(data[v]["physicalCard"] / 1000000)));

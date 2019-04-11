@@ -9,5 +9,5 @@ import {Component, Pipe} from '@angular/core';
   pure: false
 })
 export class AppComponent {
-  title = 'fontend';
+  title = 'Báo Cáo';
 }

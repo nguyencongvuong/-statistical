@@ -125,10 +125,12 @@ export class SubscriberByAreaComponent implements OnInit {
       xAxes: [
         {
           stacked: true,
+
           barPercentage: 0.5,
           ticks:{
             fontColor: "#fefffd",
-            backgroundColor:"#fefffd"
+            backgroundColor:"#fefffd",
+            fontSize:(window.innerWidth <768)?6:10
           },
           gridLines: {
             color: '#fefffd' // makes grid lines from y axis red
@@ -172,6 +174,7 @@ export class SubscriberByAreaComponent implements OnInit {
         ctx.textBaseline = 'bottom';
         ctx.fillStyle = '#fff';
         ctx.zIndex='-1';
+        ctx.fontSize=1;
         var length = this.data.datasets.length;
         var dataSets = this.data.datasets;
         this.data.datasets.forEach(function (dataset, i) {

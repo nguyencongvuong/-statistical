@@ -17,4 +17,15 @@ display: block!important;
   font-size: 80%;
   color: #dc3545;
 }
-canvas#bar-chart{position:relative; z-index:10000;}
+
+
+@media only screen and (max-width: 600px) {
+  /*.bar-chart canvas{*/
+    /*position: relative;*/
+    /*margin: auto;*/
+    /*height: 300px!important;*/
+    /*width: auto;*/
+  /*}*/
+}
+
+

@@ -11,7 +11,7 @@ import {HomeComponent} from './views/home/home.component';
 import {GoogleChartsModule} from 'angular-google-charts';
 import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {GoogleChartInterface} from 'ng2-google-charts/google-charts-interfaces';
-import { onError } from "apollo-link-error";
+import {onError} from "apollo-link-error";
 import {ApolloClient} from 'apollo-boost';
 import {Helpers} from "./_helpers/helpers";
 // import {
@@ -30,24 +30,25 @@ import {InMemoryCache} from "apollo-cache-inmemory";
 import {HttpLink, HttpLinkModule} from "apollo-angular-link-http";
 import {HttpClientModule} from "@angular/common/http";
 
-import { setContext } from 'apollo-link-context';
-import { HttpHeaders } from '@angular/common/http';
+import {setContext} from 'apollo-link-context';
+import {HttpHeaders} from '@angular/common/http';
 
 import {SocialLoginModule, AuthServiceConfig, GoogleLoginProvider} from "angular-6-social-login";
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
-      [
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider("876025403409-e0hjtmnv013kt3ogvspnrh9an28punh0.apps.googleusercontent.com")
-        }
-      ]
+    [
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider("876025403409-e0hjtmnv013kt3ogvspnrh9an28punh0.apps.googleusercontent.com")
+      }
+    ]
   );
   return config;
 }
 
-import { FooterComponent } from './views/layouts/footer/footer.component';
+import {FooterComponent} from './views/layouts/footer/footer.component';
+import {AuthenticationService} from "./_services/authentication.service";
 
 var config = {
   apiKey: "AIzaSyCxO4wTX8kriHMPkYessiJgq1deOnVTKBI",
@@ -57,6 +58,7 @@ var config = {
   storageBucket: "baocaologin.appspot.com",
   messagingSenderId: "831654919501"
 };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,20 +93,11 @@ var config = {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private apollo:Apollo,private httpLink:HttpLink){
-    const http = httpLink.create({uri: 'http://10.254.12.5:4001/graphql'});
-    // httpLink.
-    // const link = onError(({ graphQLErrors, networkError }) => {
-    //   if (graphQLErrors)
-    //     graphQLErrors.map(({ message, locations, path }) =>
-    //       console.log(
-    //         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-    //       ),
-    //     );
-    //
-    //   if (networkError) console.log(`[Network error]: ${networkError}`);
-    // });
-    const auth = setContext((_, { headers }) => {
+  constructor(private apollo: Apollo, private httpLink: HttpLink,private authenticationService:AuthenticationService) {
+    const http = httpLink.create({
+      uri: 'http://10.254.12.5:4001/graphql'
+    });
+    const auth = setContext((_, {headers}) => {
       // get the authentication token from local storage if it exists
       const token = localStorage.getItem('idToken');
       // return the headers to the context so httpLink can read them
@@ -118,26 +111,27 @@ export class AppModule {
         };
       }
     });
+    const errorLink = onError(({networkError, graphQLErrors}) => {
+      if (graphQLErrors)
+        graphQLErrors.map(({message, locations, path}) => {
+                if(message == 'Unauthenticated!'){
+                  this.authenticationService.logout();
+                }
+          }
+        );
+      if (networkError) console.log(`[Network error]: ${networkError}`);
+    });
+    const link = errorLink.concat(http);
 
-    // const client = new ApolloClient(
-    //   uri: '<your graphql endpoint>',
-    // );
-
-    // const link = onError(({ graphQLErrors, networkError }) => {
-    //
-    //   if (graphQLErrors)
-    //     graphQLErrors.map(({ message, locations, path }) =>
-    //       console.log(
-    //         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-    //       ),
-    //     );
-    //
-    //   if (networkError) console.log(`[Network error]: ${networkError}`);
-    // });
+    // auth.concat(http)
     apollo.create({
-      link: auth.concat(http),
+      link: auth.concat(link),
       cache: new InMemoryCache(),
-      // erro
+      defaultOptions: {
+        watchQuery: {
+          errorPolicy: 'all'
+        }
+      }
     });
   }
 }
