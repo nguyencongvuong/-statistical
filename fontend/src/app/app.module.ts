@@ -11,6 +11,8 @@ import {HomeComponent} from './views/home/home.component';
 import {GoogleChartsModule} from 'angular-google-charts';
 import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {GoogleChartInterface} from 'ng2-google-charts/google-charts-interfaces';
+import { onError } from "apollo-link-error";
+import {ApolloClient} from 'apollo-boost';
 import {Helpers} from "./_helpers/helpers";
 // import {
 //   IBarChartOptions,
@@ -91,7 +93,17 @@ var config = {
 export class AppModule {
   constructor(private apollo:Apollo,private httpLink:HttpLink){
     const http = httpLink.create({uri: 'http://10.254.12.5:4001/graphql'});
-
+    // httpLink.
+    // const link = onError(({ graphQLErrors, networkError }) => {
+    //   if (graphQLErrors)
+    //     graphQLErrors.map(({ message, locations, path }) =>
+    //       console.log(
+    //         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+    //       ),
+    //     );
+    //
+    //   if (networkError) console.log(`[Network error]: ${networkError}`);
+    // });
     const auth = setContext((_, { headers }) => {
       // get the authentication token from local storage if it exists
       const token = localStorage.getItem('idToken');
@@ -107,10 +119,25 @@ export class AppModule {
       }
     });
 
+    // const client = new ApolloClient(
+    //   uri: '<your graphql endpoint>',
+    // );
 
+    // const link = onError(({ graphQLErrors, networkError }) => {
+    //
+    //   if (graphQLErrors)
+    //     graphQLErrors.map(({ message, locations, path }) =>
+    //       console.log(
+    //         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+    //       ),
+    //     );
+    //
+    //   if (networkError) console.log(`[Network error]: ${networkError}`);
+    // });
     apollo.create({
       link: auth.concat(http),
-      cache: new InMemoryCache()
+      cache: new InMemoryCache(),
+      // erro
     });
   }
 }

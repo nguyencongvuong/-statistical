@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HomePageService} from "../../../_services/home-page.service";
 import {ChartsService} from "../../../_services/charts.service";
 import {Observable} from "rxjs/internal/Observable";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-details-table',
@@ -12,7 +13,7 @@ import {Observable} from "rxjs/internal/Observable";
 export class DetailsTableComponent implements OnInit {
 
   public reportCurrentStatistic;
-  constructor(public homeService:HomePageService,private chartsService:ChartsService) {
+  constructor(public homeService:HomePageService,private chartsService:ChartsService,private router:Router) {
 
   }
 
@@ -21,8 +22,9 @@ export class DetailsTableComponent implements OnInit {
     // this.statistic = this.homeService.statistic;
     this.chartsService.getStatic().subscribe(function(data){
     // (self.reportCurrentStatistic = data)
+
       self.reportCurrentStatistic = data.reportCurrentStatistic;
-      console.log(data);
+
     });
   }
 

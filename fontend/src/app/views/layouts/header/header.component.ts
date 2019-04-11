@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authenticationService:AuthenticationService,private chartsService:ChartsService) { }
 
   ngOnInit() {
-    console.log(123);
+
     this.date = new Date();
   // this.chartsService.getStatic().subscribe((data)=>console.log(data));
   //   this.reportCurrentStatistic = this.chartsService.getStatic();

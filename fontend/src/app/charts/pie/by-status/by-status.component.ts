@@ -54,7 +54,8 @@ export class ByStatusComponent implements OnInit {
           // value.text = value.text + ': ' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
           value.text = "Đang cập nhật";
           return value;
-        }
+        },
+        fontColor:"#ccc"
       }
     },
     backgroundColors: ['#5cb85c', '#D74B4B', '#6685a4', '#f0ad4e', '#5bc0de', '#EE82EE']

@@ -139,10 +139,10 @@ export class SubscriberByAreaComponent implements OnInit {
   public barChartData = [];
 
   ngOnInit() {
-    console.log(2);
+
     var self = this;
-    this.chartsData.subscribe(function (data) {
-      console.log(data)
+    this.chartsData.subscribe(function (data,err) {
+
       let keys = ["oneDayAgo", 'twoDayAgo', 'threeDaysAgo', 'fourDaysAgo', 'fiveDaysAgo', 'sixDaysAgo', 'sevenDaysAgo'];
       let northernCount = [];
       let centralCount = [];
@@ -150,6 +150,7 @@ export class SubscriberByAreaComponent implements OnInit {
       let barLabels = [];
       let lineData = [];
       keys.forEach(function (v, k) {
+
         northernCount.push(data[v]["northernCount"]);
         centralCount.push(data[v]["centralCount"]);
         southCount.push(data[v]["southCount"]);

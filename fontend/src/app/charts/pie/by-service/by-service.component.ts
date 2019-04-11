@@ -34,7 +34,8 @@ export class ByServiceComponent implements OnInit {
           var val = key.datasets[0]['data'][keyText];
           value.text = value.text + ': ' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
           return value;
-        }
+        },
+        fontColor:"#ccc"
       }
     },
     hover: {
@@ -85,7 +86,7 @@ export class ByServiceComponent implements OnInit {
         }];
         self.barChartLabels = d.types;
         self.barChartData = barChart;
-        console.log(self.barChartLabels);
+
     }
 
     )

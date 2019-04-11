@@ -45,7 +45,7 @@ export class AuthenticationService implements CanActivate{
   get isLoggedIn(): boolean {
     const  user  =  JSON.parse(localStorage.getItem('user'));
     const idToken = localStorage.getItem('idToken');
-    console.log(user);
+    // if()
     return  user  !==  null || idToken !== null;
   }
   async  loginWithGoogle(){
