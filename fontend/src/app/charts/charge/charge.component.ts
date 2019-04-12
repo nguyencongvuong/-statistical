@@ -275,12 +275,13 @@ export class ChargeComponent implements OnInit {
       let physicalCard = [];
       let barLabels = [];
       let lineData = [];
-      if(data.cod == null){
-        self.barChartData =[];
-        return;
-      }
+
       keys.forEach(function (v, k) {
         // console.log(parseFloat(parseFloat(data[v]["cod"]).toFixed(2)));
+        if(data[v]["cod"]== null){
+          self.barChartData =[];
+          return;
+        }
         let codValue = parseFloat(parseFloat((Math.fround(data[v]["cod"] / 1000000))));
         let electronicValue = parseFloat(parseFloat((Math.fround(data[v]["electronicCard"] / 1000000))));
         let physical = parseFloat(parseFloat(Math.fround(data[v]["physicalCard"] / 1000000)));
