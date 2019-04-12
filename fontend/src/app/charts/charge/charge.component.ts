@@ -31,6 +31,9 @@ export class ChargeComponent implements OnInit {
         return v;
       },
       custom: function (tooltipModel) {
+
+        var browWidth = window.innerWidth;
+
         // Tooltip Element
         var tooltipEl = document.getElementById('chartjs-tooltip');
         // Create element on first render
@@ -71,13 +74,13 @@ export class ChargeComponent implements OnInit {
 
           bodyLines.forEach(function (body, i) {
             var colors = tooltipModel.labelColors[i];
-
-            var style = 'background:' + colors.backgroundColor;
-            style += '; border-color:' + colors.borderColor;
-            style += '; border-width: 2px';
-            var span = '<span style="'+style+'"></span>';
-            console.log(span);
-            innerHtml += '<tr><td><span style="display: block;background:#005EB6; border-color:#ffffff; border-width: 2px;width: 5px"></span>' + body + '</td></tr>';
+            var style = 'background:' + colors.backgroundColor + '!important';
+            style += '; border-color:' + colors.borderColor + '!important';
+            style += '; border-width: 2px!important;';
+            style += ';width: 10px; height: 10px; display: inline-block;vertical-align: initial;';
+            // var span = '<span style="' + style + '"></span>';
+            var span = '<span style="' + style + '" ></span>';
+            innerHtml += '<tr><td>' + span + ' ' + body + '</td></tr>';
           });
           innerHtml += '</tbody>';
 
@@ -88,17 +91,25 @@ export class ChargeComponent implements OnInit {
         // Display, position, and set styles for font
 
         tooltipEl.style.opacity = "1";
-        tooltipEl.style.zIndex = "10000";
-        tooltipEl.style.backgroundColor= this.backgroundColor||"#000";
+        tooltipEl.style.zIndex = "9999";
+        tooltipEl.style.backgroundColor = this.backgroundColor || "#000";
         tooltipEl.style.position = 'absolute';
-        tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+        // console.log(tooltipModel.caretX + window.pageXOffset + tooltipModel.width);
+        // console.log(browWidth);
+        if (tooltipModel.caretX + window.pageXOffset + tooltipModel.width > browWidth - 30) {
+          // console.log('max');
+          tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX - tooltipModel.width + 'px';
+        } else {
+          tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+        }
+
         tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - 20 + 'px';
         tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
         tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
         tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
         tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
         tooltipEl.style.pointerEvents = 'none';
-        tooltipEl.style.borderRadius="5px 5px"
+        tooltipEl.style.borderRadius = "5px 5px"
       }
 
     },
@@ -138,12 +149,12 @@ export class ChargeComponent implements OnInit {
         {
           stacked: true,
           gridLines: {
-            color: '#fefffd' // makes grid lines from y axis red
+            color: '#b4bcb5' // makes grid lines from y axis red
           },
           barPercentage: 0.5,
           ticks: {
             fontColor: "#fefffd",
-            fontSize:(window.innerWidth <768)?7:10
+            fontSize: (window.innerWidth > 1024) ? 10 : 7
           }
           // barThickness: 6,
           // maxBarThickness: 8,
@@ -154,14 +165,14 @@ export class ChargeComponent implements OnInit {
         {
           stacked: true,
           gridLines: {
-            color: '#fefffd', // makes grid lines from y axis red,
+            color: '#b4bcb5', // makes grid lines from y axis red,
 
           },
           ticks: {
             maxIndex: 0,
             fontColor: "#fefffd",
             // stepSize: 1,
-            fontSize:(window.innerWidth<768)?10:11,
+            fontSize: (window.innerWidth > 1024) ? 12 : 8,
             callback: function (label, index, labels) {
               if (this.options.ticks.maxIndex <= index) {
                 this.options.ticks.maxIndex = index;
@@ -190,7 +201,8 @@ export class ChargeComponent implements OnInit {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         ctx.fillStyle = 'white';
-        ctx.fontSize = 1;
+        ctx.font  = (window.innerWidth > 1024)?"12px Arial":"8px Arial";
+
         // ctx.textC
         var length = this.data.datasets.length;
         var dataSets = this.data.datasets;
@@ -278,8 +290,8 @@ export class ChargeComponent implements OnInit {
 
       keys.forEach(function (v, k) {
         // console.log(parseFloat(parseFloat(data[v]["cod"]).toFixed(2)));
-        if(data[v]["cod"]== null){
-          self.barChartData =[];
+        if (data[v]["cod"] == null) {
+          self.barChartData = [];
           return;
         }
         let codValue = parseFloat(parseFloat((Math.fround(data[v]["cod"] / 1000000))));

@@ -39,10 +39,11 @@ export class SubscriberByAreaComponent implements OnInit {
 
       mode: 'index',
       intersect: false,
-      enabled:false,
+      enabled: false,
 
-      custom:function(tooltipModel) {
+      custom: function (tooltipModel) {
         // Tooltip Element
+        var browWidth = window.innerWidth;
         var tooltipEl = document.getElementById('chartjs-tooltip');
         // Create element on first render
         if (!tooltipEl) {
@@ -64,31 +65,34 @@ export class SubscriberByAreaComponent implements OnInit {
         } else {
           tooltipEl.classList.add('no-transform');
         }
+
         function getBody(bodyItem) {
           return bodyItem.lines;
         }
+
         if (tooltipModel.body) {
           var titleLines = tooltipModel.title || [];
           var bodyLines = tooltipModel.body.map(getBody);
 
           var innerHtml = '<thead>';
 
-          titleLines.forEach(function(title) {
+          titleLines.forEach(function (title) {
             innerHtml += '<tr><th>' + title + '</th></tr>';
           });
           innerHtml += '</thead><tbody>';
 
-          bodyLines.forEach(function(body, i) {
+          bodyLines.forEach(function (body, i) {
             var colors = tooltipModel.labelColors[i];
-
-            var style = 'background:' + colors.backgroundColor;
-            style += '; border-color:' + colors.borderColor;
-            style += '; border-width: 2px';
-            var span = '<span style="background-color: red"></span>';
-            innerHtml += '<tr><td>' + span + body + '</td></tr>';
+            var style = 'background:'  +colors.backgroundColor+ '!important';
+            style += '; border-color:' + colors.borderColor + '!important';
+            style += '; border-width: 2px!important;';
+            style +=';width: 10px; height: 10px; display: inline-block;vertical-align: initial;';
+            // var span = '<span style="' + style + '"></span>';
+            var span ='<span style="'+style+'" ></span>';
+            innerHtml += '<tr><td>' + span + ' '+body + '</td></tr>';
           });
           innerHtml += '</tbody>';
-
+          console.log(innerHtml);
           var tableRoot = tooltipEl.querySelector('table');
           tableRoot.innerHTML = innerHtml;
         }
@@ -97,16 +101,21 @@ export class SubscriberByAreaComponent implements OnInit {
         console.log(this);
         tooltipEl.style.opacity = "1";
         tooltipEl.style.zIndex = "10000";
-        tooltipEl.style.backgroundColor= this.backgroundColor||"#000";
+        tooltipEl.style.backgroundColor = this.backgroundColor || "#000";
         tooltipEl.style.position = 'absolute';
-        tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+        if (tooltipModel.caretX + window.pageXOffset + tooltipModel.width > browWidth - 30) {
+          // console.log('max');
+          tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX - tooltipModel.width + 'px';
+        } else {
+          tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+        }
         tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - 20 + 'px';
         tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
         tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
         tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
         tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
         tooltipEl.style.pointerEvents = 'none';
-        tooltipEl.style.borderRadius="5px 5px"
+        tooltipEl.style.borderRadius = "5px 5px"
       }
     },
 
@@ -116,7 +125,7 @@ export class SubscriberByAreaComponent implements OnInit {
       orient: 'vertical',
       labels: {
         boxWidth: 10,
-        fontColor:"#ccc",
+        fontColor: "#ccc",
       },
 
 
@@ -127,13 +136,13 @@ export class SubscriberByAreaComponent implements OnInit {
           stacked: true,
 
           barPercentage: 0.5,
-          ticks:{
+          ticks: {
             fontColor: "#fefffd",
-            backgroundColor:"#fefffd",
-            fontSize:(window.innerWidth <768)?6:10
+            backgroundColor: "#fefffd",
+            fontSize: (window.innerWidth > 1024) ? 10 : 7
           },
           gridLines: {
-            color: '#fefffd' // makes grid lines from y axis red
+            color: '#b4bcb5' // makes grid lines from y axis red
           }
           // barThickness: 6,
           // maxBarThickness: 8,
@@ -145,17 +154,18 @@ export class SubscriberByAreaComponent implements OnInit {
         {
           stacked: true,
           gridLines: {
-            color: '#fefffd' // makes grid lines from y axis red
+            color: '#b4bcb5' // makes grid lines from y axis red
           },
           ticks: {
-            maxIndex:0,
+            maxIndex: 0,
             fontColor: "#fefffd",
-            callback: function(label, index, labels) {
-              if(this.options.ticks.maxIndex <= index){
+            fontSize: (window.innerWidth > 1024) ? 12 : 8,
+            callback: function (label, index, labels) {
+              if (this.options.ticks.maxIndex <= index) {
                 this.options.ticks.maxIndex = index;
               }
-              if(this.options.ticks.maxIndex == labels[0]/this.options.ticks.maxRotation){
-                this.options.ticks.suggestedMax = labels[0] + this.options.ticks.maxRotation*4;
+              if (this.options.ticks.maxIndex == labels[0] / this.options.ticks.maxRotation) {
+                this.options.ticks.suggestedMax = labels[0] + this.options.ticks.maxRotation * 4;
               }
               return label;
             }
@@ -173,8 +183,8 @@ export class SubscriberByAreaComponent implements OnInit {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         ctx.fillStyle = '#fff';
-        ctx.zIndex='-1';
-        ctx.fontSize=1;
+        ctx.zIndex = '-1';
+        ctx.font  = (window.innerWidth > 1024)?"12px Arial":"8px Arial";
         var length = this.data.datasets.length;
         var dataSets = this.data.datasets;
         this.data.datasets.forEach(function (dataset, i) {
@@ -215,10 +225,10 @@ export class SubscriberByAreaComponent implements OnInit {
   ngOnInit() {
 
     var self = this;
-    this.chartsData.subscribe(function (data,err) {
+    this.chartsData.subscribe(function (data, err) {
       // console.log(data);
-      if(data.oneDayAgo == null){
-        self.barChartData =[];
+      if (data.oneDayAgo == null) {
+        self.barChartData = [];
         return;
       }
       let keys = ["oneDayAgo", 'twoDayAgo', 'threeDaysAgo', 'fourDaysAgo', 'fiveDaysAgo', 'sixDaysAgo', 'sevenDaysAgo'];
@@ -233,7 +243,7 @@ export class SubscriberByAreaComponent implements OnInit {
         centralCount.push(data[v]["centralCount"]);
         southCount.push(data[v]["southCount"]);
         barLabels.push(data[v]['day']);
-        lineData.push(data[v]["northernCount"]+data[v]["centralCount"]+data[v]["southCount"]);
+        lineData.push(data[v]["northernCount"] + data[v]["centralCount"] + data[v]["southCount"]);
       });
 
       self.barChartLabels = barLabels;

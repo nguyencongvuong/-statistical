@@ -18,7 +18,28 @@ export class ByServiceComponent implements OnInit {
     responsive: true,
     tooltips: {
       mode: 'point',
-      intersect: false
+      intersect: false,
+      callbacks: {
+        label: function(tooltipItem, data) {
+          console.log(data);
+          // var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+          // if (label) {
+          //   label += ': ';
+          // }
+          // label += Math.round(tooltipItem.yLabel * 100) / 100;
+          // console.log(label);
+          let label = '';
+          data.labels.forEach(function(v,k){
+            label = v+': ';
+            // data.datasets[0][data][k]
+
+            label+=(data.datasets[0]['data'][k]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          });
+          return label;
+
+        }
+      }
     },
     legend:{
       position:'right',
