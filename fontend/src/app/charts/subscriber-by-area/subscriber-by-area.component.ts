@@ -216,7 +216,11 @@ export class SubscriberByAreaComponent implements OnInit {
 
     var self = this;
     this.chartsData.subscribe(function (data,err) {
-
+      // console.log(data);
+      if(data.oneDayAgo == null){
+        self.barChartData =[];
+        return;
+      }
       let keys = ["oneDayAgo", 'twoDayAgo', 'threeDaysAgo', 'fourDaysAgo', 'fiveDaysAgo', 'sixDaysAgo', 'sevenDaysAgo'];
       let northernCount = [];
       let centralCount = [];

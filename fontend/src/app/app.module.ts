@@ -14,6 +14,7 @@ import {GoogleChartInterface} from 'ng2-google-charts/google-charts-interfaces';
 import {onError} from "apollo-link-error";
 import {ApolloClient} from 'apollo-boost';
 import {Helpers} from "./_helpers/helpers";
+
 // import {
 //   IBarChartOptions,
 //   IChartistAnimationOptions,
@@ -111,14 +112,25 @@ export class AppModule {
         };
       }
     });
-    const errorLink = onError(({networkError, graphQLErrors}) => {
+    const errorLink = onError(({networkError, graphQLErrors,operation,forward }) => {
+      console.log(operation);
+      console.log(forward);
       if (graphQLErrors)
+        for (let err of graphQLErrors) {
+            console.log(err.extensions.code);
+          if(err.extensions.code=="INTERNAL_SERVER_ERROR"){
+            this.authenticationService.logout();
+          }
+        }
         graphQLErrors.map(({message, locations, path}) => {
-                if(message == 'Unauthenticated!'){
+
+                if(message == 'Unauthenticated!' || message== "Unauthorized!"){
                   this.authenticationService.logout();
                 }
           }
         );
+
+
       if (networkError) console.log(`[Network error]: ${networkError}`);
     });
     const link = errorLink.concat(http);

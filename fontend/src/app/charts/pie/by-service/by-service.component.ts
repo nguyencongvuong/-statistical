@@ -71,8 +71,17 @@ export class ByServiceComponent implements OnInit {
 
   ngOnInit() {
     var self = this;
+
     this.chartsData.subscribe(function(data){
+        // console.log(data);
+
         let d = data.reportEffectiveSubscriptionByType;
+        if(d == null){
+          self.barChartData = [{
+            data:[]
+          }];
+          return ;
+        }
         let barChart = [{
           data:d.counts,
           backgroundColor: [
